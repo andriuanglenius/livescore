@@ -7,7 +7,7 @@
 <html>
 
 <head>
-    <title>JSON</title>
+    <title>Match</title>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
@@ -17,7 +17,7 @@
 
 
     <div class="container text-center mt-3 pb-3">
-        <h1 class="text-center">Data JSON</h1>
+        <h1 class="text-center">Data Match</h1>
     </div>
     <div class="container" id="daftar-json">
         <div class="row">
@@ -25,10 +25,11 @@
                 <table border="1" id="table-json" class="table-json table-striped text-center" width="100%">
                     <thead>
                         <tr>
-                            <th class="time">User Id</th>
-                            <th class="tanggal">Id</th>
-                            <th class="home" id="home">Title</th>
-                            <th class="score">Body</th>
+                            <th class="time">Time</th>
+                            <th class="tanggal">Tanggal</th>
+                            <th class="home" id="home">Home</th>
+                            <th class="score">Score</th>
+                            <th class="away">Away</th>
                         </tr>
                     </thead>
                     <tbody id="table-body-json">
@@ -50,55 +51,50 @@
             //var dataJson = 
             //console.log(dataJson);
             $.ajax({
-                    url: 'Home/getData',
-                    //url: 'http://localhost/mvc/app/home/index',
-                    //url: '../app/models/Json_model.php',
-                    //url: '../app/views/home/index.php',
-                    //url: 'http://localhost/mvc/app/controllers/home',
-                    //url: 'http:localhost/mvc/controllers/home/index',
+                url: 'Home/getData',
 
-                    //data: dataJson,
-                    type: 'GET',
-                    dataType: 'JSON',
+                //data: dataJson,
+                type: 'GET',
+                dataType: 'JSON',
 
-                    success: function(result, i) {
-                        console.log(result);
-                        result.sort(sortFunction);
+                success: function(result, i) {
+                    //console.log(result);
+                    result.sort(sortFunction);
 
-                        for (var i in result) {
-                            //var homee = result[i].home;
-                            //console.log(result[i]);
-                            var title = result[i].title;
-                            //console.log(homee);
-
-                            html += "<tr><td>" + result[i].userId + "</td><td>" + result[i].id + "</td><td>" + title + "</td><td>" + result[i].body + "</td></tr>";
-
-                        }
-                        document.getElementById("table-body-json").innerHTML = html;
-                    },
-                    error: function(error) {
-                        console.log(error);
+                    for (var i in result) {
+                        //var homee = result[i].home;
+                        //console.log(result[i]);
+                        //var title = result[i].title;
+                        //console.log(homee);
+                        var homee = result[i].home;
+                        // html += "<tr><td>" + result[i].userId + "</td><td>" + result[i].id + "</td><td>" + title + "</td><td>" + result[i].body + "</td></tr>";
+                        html += "<tr><td>" + result[i].time + "</td><td>" + result[i].tanggal + "</td><td>" + homee + "</td><td>" + result[i].score + "</td><td>" + result[i].away + "</td></tr>";
                     }
+                    document.getElementById("table-body-json").innerHTML = html;
+                },
+                error: function(error) {
+                    console.log(error);
+                }
             });
         }
 
-            ambilDataJson();
+        ambilDataJson();
 
 
-            function sortFunction(a, b) {
+        function sortFunction(a, b) {
 
-                if (a.userId == b.userId) {
+            if (a.tanggal == b.tanggal) {
 
-                    if (a.id == b.id) {
+                if (a.time == b.time) {
 
-                        return (a.title < b.title) ? -1 : 1;
-                    } else {
-                        return (a.id < b.id) ? -1 : 1;
-                    }
+                    return (a.home < b.home) ? -1 : 1;
                 } else {
-                    return (a.userId < b.userId) ? -1 : 1;
+                    return (a.time < b.time) ? -1 : 1;
                 }
+            } else {
+                return (a.tanggal < b.tanggal) ? -1 : 1;
             }
+        }
     </script>
 </body>
 
